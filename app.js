@@ -1,3 +1,46 @@
+// Initialize landing page
+document.addEventListener('DOMContentLoaded', function() {
+    const startShoppingBtn = document.getElementById('startShoppingBtn');
+    const heroSearchBtn = document.getElementById('heroSearchBtn');
+    
+    if (startShoppingBtn) {
+        startShoppingBtn.addEventListener('click', function() {
+            showMarketplace();
+            window.scrollTo(0, 0);
+        });
+    }
+    
+    if (heroSearchBtn) {
+        heroSearchBtn.addEventListener('click', function() {
+            showMarketplace();
+            window.scrollTo(0, 0);
+        });
+    }
+    
+    // Add event listener for hero search input
+    const heroSearchInput = document.getElementById('heroSearchInput');
+    if (heroSearchInput) {
+        heroSearchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                showMarketplace();
+                window.scrollTo(0, 0);
+            }
+        });
+    }
+});
+
+// Toggle between landing page and marketplace
+function showMarketplace() {
+    document.getElementById('landingPage').style.display = 'none';
+    document.getElementById('marketplacePage').style.display = 'block';
+    renderListings();
+}
+
+function showLanding() {
+    document.getElementById('landingPage').style.display = 'flex';
+    document.getElementById('marketplacePage').style.display = 'none';
+}
+
 // Sample car data
 const sampleCars = [
     {
@@ -326,6 +369,7 @@ function createCarListing(car) {
             <div class="car-title">${car.year} ${car.make} ${car.model}</div>
             <div class="car-subtitle">${car.mileage.toLocaleString()} miles</div>
             <div class="car-price">$${car.price.toLocaleString()}</div>
+            <div class="car-monthly-estimate">Est. $${calculateMonthlyPayment(car.price)}/mo</div>
             <div class="car-details">
                 <span class="car-condition ${car.condition}">${capitalize(car.condition)}</span>
             </div>
@@ -646,6 +690,22 @@ function handleSellCar(e) {
     document.getElementById('sellForm').reset();
     
     renderListings();
+}
+
+// Calculate monthly payment estimate
+function calculateMonthlyPayment(price, downPayment = 0, apr = 6.5, loanTerm = 60) {
+    const principal = price - downPayment;
+    const monthlyRate = apr / 100 / 12;
+    
+    if (monthlyRate === 0) {
+        return Math.round(principal / loanTerm);
+    }
+    
+    const monthlyPayment = principal * 
+        (monthlyRate * Math.pow(1 + monthlyRate, loanTerm)) / 
+        (Math.pow(1 + monthlyRate, loanTerm) - 1);
+    
+    return Math.round(monthlyPayment);
 }
 
 // Share notification function
