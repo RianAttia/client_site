@@ -1,46 +1,3 @@
-// Initialize landing page
-document.addEventListener('DOMContentLoaded', function() {
-    const startShoppingBtn = document.getElementById('startShoppingBtn');
-    const heroSearchBtn = document.getElementById('heroSearchBtn');
-    
-    if (startShoppingBtn) {
-        startShoppingBtn.addEventListener('click', function() {
-            showMarketplace();
-            window.scrollTo(0, 0);
-        });
-    }
-    
-    if (heroSearchBtn) {
-        heroSearchBtn.addEventListener('click', function() {
-            showMarketplace();
-            window.scrollTo(0, 0);
-        });
-    }
-    
-    // Add event listener for hero search input
-    const heroSearchInput = document.getElementById('heroSearchInput');
-    if (heroSearchInput) {
-        heroSearchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                showMarketplace();
-                window.scrollTo(0, 0);
-            }
-        });
-    }
-});
-
-// Toggle between landing page and marketplace
-function showMarketplace() {
-    document.getElementById('landingPage').style.display = 'none';
-    document.getElementById('marketplacePage').style.display = 'block';
-    renderListings();
-}
-
-function showLanding() {
-    document.getElementById('landingPage').style.display = 'flex';
-    document.getElementById('marketplacePage').style.display = 'none';
-}
-
 // Sample car data
 const sampleCars = [
     {
@@ -51,19 +8,26 @@ const sampleCars = [
         price: 8500,
         mileage: 235000,
         condition: 'good',
-        description: '- Transmission Replaced (3 Month warranty)\n- Transmission Fluid Flush\n- Synthetic Oil Change\n- Cabin Filter Change\n- Professionally Detailed @khansdetail\n- VIN available on request',
+        description: '- Transmission Replaced (3 Month warranty)\n- Transmission Fluid Flush\n- Synthetic Oil Change\n- Cabin Filter Change\n- Professionally Detailed <a href="https://www.instagram.com/khansdetail/?hl=en" target="_blank">@khansdetail</a>\n- VIN available on request',
         location: '1 Park Ave, Lyndhurst, NJ 07071',
         seller: 'Rían',
         phone: '(555) 123-4567',
         postedDate: new Date(),
         images: [
-            'images/camry-1.jpg',
-            'images/camry-2.jpg',
-            'images/camry-3.jpg',
-            'images/camry-4.jpg',
-            'images/camry-5.jpg',
-            'images/camry-6.jpg',
-            'images/camry-7.jpg'
+            'images/Cars/New cam/IMG_20251217_001910 (5).png',
+            'images/Cars/New cam/IMG_20251217_001909 (15).png',
+            'images/Cars/New cam/IMG_20251217_001909 (16).png',
+            'images/Cars/New cam/IMG_20251217_001909 (17).png',
+            'images/Cars/New cam/IMG_20251217_001909 (18).png',
+            'images/Cars/New cam/IMG_20251217_001909 (19).png',
+            'images/Cars/New cam/IMG_20251217_001909 (20).png',
+            'images/Cars/New cam/IMG_20251217_001909 (21).png',
+            'images/Cars/New cam/IMG_20251217_001910 (1).png',
+            'images/Cars/New cam/IMG_20251217_001910 (2).png',
+            'images/Cars/New cam/IMG_20251217_001910 (3).png',
+            'images/Cars/New cam/IMG_20251217_001910 (4).png',
+            'images/Cars/New cam/IMG_20251217_001909 (14).png',
+            'images/Cars/New cam/IMG_20251217_001910.png'
         ],
         sold: false
     },
@@ -75,19 +39,25 @@ const sampleCars = [
         price: 6500,
         mileage: 139000,
         condition: 'good',
-        description: '- New Oil Change & Filter\n- New Car Play and Android Auto Navigation System\n- New Reverse Camera\n- Professionally Detailed @khansdetail\n- All Maintenance up-to-date\n- VIN available on request',
+        description: '- New Oil Change & Filter\n- New Car Play and Android Auto Navigation System\n- New Reverse Camera\n- Professionally Detailed <a href="https://www.instagram.com/khansdetail/?hl=en" target="_blank">@khansdetail</a>\n- All Maintenance up-to-date\n- VIN available on request',
         location: '1 Park Ave, Lyndhurst, NJ 07071',
         seller: 'Rían',
         phone: '(555) 123-4567',
         postedDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
         images: [
-            'images/nissan-1.jpg',
-            'images/nissan-2.jpg',
-            'images/nissan-3.jpg',
-            'images/nissan-4.jpg',
-            'images/nissan-5.jpg',
-            'images/nissan-6.jpg',
-            'images/nissan-7.jpg'
+            'images/Cars/Nissan/IMG_20251217_001909.png',
+            'images/Cars/Nissan/IMG_20251217_001908.png',
+            'images/Cars/Nissan/IMG_20251217_002515.jpg',
+            'images/Cars/Nissan/IMG_20251217_002529.png',
+            'images/Cars/Nissan/IMG_20251217_002532.png',
+            'images/Cars/Nissan/IMG_20251217_002533.png',
+            'images/Cars/Nissan/IMG_20251217_002535.png',
+            'images/Cars/Nissan/IMG_20251217_002536.png',
+            'images/Cars/Nissan/IMG_20251217_002538.png',
+            'images/Cars/Nissan/IMG_20251217_002539.png',
+            'images/Cars/Nissan/IMG_20251217_002541.png',
+            'images/Cars/Nissan/IMG_20251217_002542.png',
+            'images/Cars/Nissan/IMG_20251217_002546.png'
         ],
         sold: false
     },
@@ -105,12 +75,17 @@ const sampleCars = [
         phone: '(555) 123-4567',
         postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
         images: [
-            'images/camry2-1.jpg',
-            'images/camry2-2.jpg',
-            'images/camry2-3.jpg',
-            'images/camry2-4.jpg',
-            'images/camry2-5.jpg',
-            'images/camry2-6.jpg'
+            'images/Cars/Old Cam/IMG_20251217_001909 (13).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (4).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (5).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (6).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (7).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (8).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (9).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (10).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (11).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (12).png',
+            'images/Cars/Old Cam/IMG_20251217_001909 (3).png'
         ],
         sold: false
     },
@@ -128,11 +103,16 @@ const sampleCars = [
         phone: '(555) 123-4567',
         postedDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
         images: [
-            'images/bmw-1.jpg',
-            'images/bmw-2.jpg',
-            'images/bmw-3.jpg',
-            'images/bmw-4.jpg',
-            'images/bmw-5.jpg'
+            'images/Cars/BMW/IMG_20251216_223407.png',
+            'images/Cars/BMW/IMG_20251216_223407 (2).png',
+            'images/Cars/BMW/IMG_20251216_223407 (3).png',
+            'images/Cars/BMW/IMG_20251216_223407 (4).png',
+            'images/Cars/BMW/IMG_20251216_223407 (5).png',
+            'images/Cars/BMW/IMG_20251216_223407 (6).png',
+            'images/Cars/BMW/IMG_20251216_223407 (1).png',
+            'images/Cars/BMW/IMG_20251216_223408 (1).png',
+            'images/Cars/BMW/IMG_20251216_223407 (7).png',
+            'images/Cars/BMW/IMG_20251216_223408.png'
         ],
         sold: true
     },
@@ -150,11 +130,14 @@ const sampleCars = [
         phone: '(555) 123-4567',
         postedDate: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
         images: [
-            'images/honda-1.jpg',
-            'images/honda-2.jpg',
-            'images/honda-3.jpg',
-            'images/honda-4.jpg',
-            'images/honda-5.jpg'
+            'images/Cars/Accord/IMG_20251216_223018 (1).png',
+            'images/Cars/Accord/IMG_20251216_223017 (2).png',
+            'images/Cars/Accord/IMG_20251216_223017 (3).png',
+            'images/Cars/Accord/IMG_20251216_223017 (4).png',
+            'images/Cars/Accord/IMG_20251216_223017 (5).png',
+            'images/Cars/Accord/IMG_20251216_223017.png',
+            'images/Cars/Accord/IMG_20251216_223017 (1).png',
+            'images/Cars/Accord/IMG_20251216_223018.png'
         ],
         sold: true
     },
@@ -166,17 +149,25 @@ const sampleCars = [
         price: 8200,
         mileage: 155000,
         condition: 'good',
-        description: '- New Battery\n- New Oil Change\n- New Oil Filter\n- Coolant Flush\n- Power Steering Flush\n- Professionally Detailed @khansdetail\n- New Car Play & Android Auto Navigation\n- New Reverse Camera\n- All Maintenance Up To Date',
+        description: '- New Battery\n- New Oil Change\n- New Oil Filter\n- Coolant Flush\n- Power Steering Flush\n- Professionally Detailed <a href="https://www.instagram.com/khansdetail/?hl=en" target="_blank">@khansdetail</a>\n- New Car Play & Android Auto Navigation\n- New Reverse Camera\n- All Maintenance Up To Date',
         location: '1 Park Ave, Lyndhurst, NJ 07071',
         seller: 'Rían',
         phone: '(555) 123-4567',
         postedDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
         images: [
-            'images/mazda-1.jpg',
-            'images/mazda-2.jpg',
-            'images/mazda-3.jpg',
-            'images/mazda-4.jpg',
-            'images/mazda-5.jpg'
+            'images/Cars/Mazda/IMG_20251216_223105 (1).png',
+            'images/Cars/Mazda/IMG_20251216_223105.png',
+            'images/Cars/Mazda/IMG_20251216_223107 (1).png',
+            'images/Cars/Mazda/IMG_20251216_223107.png',
+            'images/Cars/Mazda/IMG_20251216_223223 (1).png',
+            'images/Cars/Mazda/IMG_20251216_223223 (2).png',
+            'images/Cars/Mazda/IMG_20251216_223223 (3).png',
+            'images/Cars/Mazda/IMG_20251216_223223.png',
+            'images/Cars/Mazda/IMG_20251216_223224 (1).png',
+            'images/Cars/Mazda/IMG_20251216_223224.png',
+            'images/Cars/Mazda/IMG_20251216_223320 (1).png',
+            'images/Cars/Mazda/IMG_20251216_223320 (2).png',
+            'images/Cars/Mazda/IMG_20251216_223320.png'
         ],
         sold: true
     },
@@ -188,17 +179,25 @@ const sampleCars = [
         price: 5900,
         mileage: 138000,
         condition: 'good',
-        description: '- New wireless Car play and android auto\n- New Air Filter\n- New Cabin Filter\n- New Alternator\n- New AC Compressor\n- New three belts\n- New engine oil\n- New engine filter\n- New transmission Fluid\n- New Rear Brake Shoes\n- New rear drum brake\n- New wheel cylinder rear\n- New Windshield\n- Professionally detailed by @khansdetail',
+        description: '- New wireless Car play and android auto\n- New Air Filter\n- New Cabin Filter\n- New Alternator\n- New AC Compressor\n- New three belts\n- New engine oil\n- New engine filter\n- New transmission Fluid\n- New Rear Brake Shoes\n- New rear drum brake\n- New wheel cylinder rear\n- New Windshield\n- Professionally detailed by <a href="https://www.instagram.com/khansdetail/?hl=en" target="_blank">@khansdetail</a>',
         location: '1 Park Ave, Lyndhurst, NJ 07071',
         seller: 'Rían',
         phone: '(555) 123-4567',
         postedDate: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
         images: [
-            'images/civic-1.jpg',
-            'images/civic-2.jpg',
-            'images/civic-3.jpg',
-            'images/civic-4.jpg',
-            'images/civic-5.jpg'
+            'images/Cars/Civic/IMG_20251216_223106 (6).png',
+            'images/Cars/Civic/IMG_20251216_223105 (3).png',
+            'images/Cars/Civic/IMG_20251216_223105 (4).png',
+            'images/Cars/Civic/IMG_20251216_223105 (5).png',
+            'images/Cars/Civic/IMG_20251216_223105 (6).png',
+            'images/Cars/Civic/IMG_20251216_223105 (7).png',
+            'images/Cars/Civic/IMG_20251216_223106 (1).png',
+            'images/Cars/Civic/IMG_20251216_223106 (2).png',
+            'images/Cars/Civic/IMG_20251216_223106 (3).png',
+            'images/Cars/Civic/IMG_20251216_223106 (4).png',
+            'images/Cars/Civic/IMG_20251216_223106 (5).png',
+            'images/Cars/Civic/IMG_20251216_223105 (2).png',
+            'images/Cars/Civic/IMG_20251216_223106.png'
         ],
         sold: true
     },
@@ -216,11 +215,16 @@ const sampleCars = [
         phone: '(555) 123-4567',
         postedDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         images: [
-            'images/crv-1.jpg',
-            'images/crv-2.jpg',
-            'images/crv-3.jpg',
-            'images/crv-4.jpg',
-            'images/crv-5.jpg'
+            'images/Cars/Crv/IMG_20251216_223622.png',
+            'images/Cars/Crv/IMG_20251216_223622 (2).png',
+            'images/Cars/Crv/IMG_20251216_223622 (3).png',
+            'images/Cars/Crv/IMG_20251216_223622 (4).png',
+            'images/Cars/Crv/IMG_20251216_223622 (5).png',
+            'images/Cars/Crv/IMG_20251216_223622 (6).png',
+            'images/Cars/Crv/IMG_20251216_223622 (7).png',
+            'images/Cars/Crv/IMG_20251216_223622 (1).png',
+            'images/Cars/Crv/IMG_20251216_223623 (1).png',
+            'images/Cars/Crv/IMG_20251216_223623.png'
         ],
         sold: true
     }
@@ -294,6 +298,18 @@ function setupEventListeners() {
         });
     });
 
+    // Setup zoom modal
+    const zoomModal = document.getElementById('imageZoomModal');
+    const zoomClose = document.getElementById('zoomClose');
+    zoomClose.addEventListener('click', () => {
+        zoomModal.classList.add('hidden');
+    });
+    zoomModal.addEventListener('click', (e) => {
+        if (e.target === zoomModal) {
+            zoomModal.classList.add('hidden');
+        }
+    });
+
     // Form submissions
     document.getElementById('loginForm').addEventListener('submit', handleLogin);
     document.getElementById('sellForm').addEventListener('submit', handleSellCar);
@@ -344,7 +360,7 @@ function createCarListing(car) {
     
     // Create image element or placeholder
     const imageHTML = images.length > 0 
-        ? `<img src="${images[0]}" alt="Car image" class="car-image-img" />`
+        ? `<img src="${images[0]}" alt="Car image" class="car-image-img zoom-image" data-full-src="${images[0]}" />`
         : '<div class="car-image-placeholder">No Image</div>';
     
     const soldOverlay = car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : '';
@@ -369,7 +385,6 @@ function createCarListing(car) {
             <div class="car-title">${car.year} ${car.make} ${car.model}</div>
             <div class="car-subtitle">${car.mileage.toLocaleString()} miles</div>
             <div class="car-price">$${car.price.toLocaleString()}</div>
-            <div class="car-monthly-estimate">Est. $${calculateMonthlyPayment(car.price)}/mo</div>
             <div class="car-details">
                 <span class="car-condition ${car.condition}">${capitalize(car.condition)}</span>
             </div>
@@ -393,14 +408,42 @@ function createCarListing(car) {
         
         const updateCarousel = (idx) => {
             currentIdx = (idx + images.length) % images.length;
-            imageContainer.innerHTML = `
-                <img src="${images[currentIdx]}" alt="Car image" class="car-image-img" />
-                ${car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : ''}
-            `;
-            imageContainer.setAttribute('data-image-index', currentIdx);
+            const imgSrc = images[currentIdx];
+            
+            // Update indicators immediately
             indicators.forEach((ind, i) => {
                 ind.classList.toggle('active', i === currentIdx);
             });
+            
+            // Preload the image before displaying it
+            const img = new Image();
+            img.onload = () => {
+                imageContainer.innerHTML = `
+                    <img src="${imgSrc}" alt="Car image" class="car-image-img" />
+                    ${car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : ''}
+                `;
+                imageContainer.setAttribute('data-image-index', currentIdx);
+            };
+            img.onerror = () => {
+                // Fallback if image fails to load
+                imageContainer.innerHTML = `
+                    <img src="${imgSrc}" alt="Car image" class="car-image-img" />
+                    ${car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : ''}
+                `;
+                imageContainer.setAttribute('data-image-index', currentIdx);
+            };
+            img.src = imgSrc;
+            
+            // Fallback timeout - update after 1 second even if image doesn't load
+            setTimeout(() => {
+                if (imageContainer.getAttribute('data-image-index') !== String(currentIdx)) {
+                    imageContainer.innerHTML = `
+                        <img src="${imgSrc}" alt="Car image" class="car-image-img" />
+                        ${car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : ''}
+                    `;
+                    imageContainer.setAttribute('data-image-index', currentIdx);
+                }
+            }, 1000);
         };
         
         prevBtn.addEventListener('click', (e) => {
@@ -433,8 +476,8 @@ function openCarDetail(car) {
 
     // Create image element or placeholder
     const imageHTML = images.length > 0 
-        ? `<img src="${images[0]}" alt="Car image" class="car-detail-image-img" />`
-        : '<div class="car-image-placeholder">No Image</div>';
+        ? `<img src=\"${images[0]}\" alt=\"Car image\" class=\"car-detail-image-img zoom-image\" data-full-src=\"${images[0]}\" />`
+        : '<div class=\"car-image-placeholder\">No Image</div>';
 
     body.innerHTML = `
         <div class="car-detail-grid">
@@ -498,7 +541,7 @@ function openCarDetail(car) {
                 </div>
 
                 <div class="car-detail-actions">
-                    <button class="btn-primary" onclick="alert('Contact feature coming soon!')">Contact Seller</button>
+                    <button class="btn-primary" onclick="window.open('https://car-question-form.zapier.app/submit-question', '_blank')">Contact Seller</button>
                     <button class="btn-secondary" id="shareBtn">Share</button>
                 </div>
             </div>
@@ -516,13 +559,24 @@ function openCarDetail(car) {
         
         const updateDetailCarousel = (idx) => {
             currentIdx = (idx + images.length) % images.length;
-            imageElement.innerHTML = `<img src="${images[currentIdx]}" alt="Car image" class="car-detail-image-img" />`;
+            imageElement.innerHTML = `<img src="${images[currentIdx]}" alt="Car image" class="car-detail-image-img zoom-image" data-full-src="${images[currentIdx]}" />`;
             imageElement.setAttribute('data-image-index', currentIdx);
             indicators.forEach((ind, i) => {
                 ind.classList.toggle('active', i === currentIdx);
             });
         };
-        
+
+        // Initialize carousel with first image
+        updateDetailCarousel(0);
+
+        // Add zoom functionality to detail images
+        imageElement.addEventListener('click', (e) => {
+            if (e.target.classList.contains('zoom-image')) {
+                const fullSrc = images[currentIdx];
+                openImageZoom(fullSrc);
+            }
+        });
+
         prevBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             updateDetailCarousel(currentIdx - 1);
@@ -692,22 +746,6 @@ function handleSellCar(e) {
     renderListings();
 }
 
-// Calculate monthly payment estimate
-function calculateMonthlyPayment(price, downPayment = 0, apr = 6.5, loanTerm = 60) {
-    const principal = price - downPayment;
-    const monthlyRate = apr / 100 / 12;
-    
-    if (monthlyRate === 0) {
-        return Math.round(principal / loanTerm);
-    }
-    
-    const monthlyPayment = principal * 
-        (monthlyRate * Math.pow(1 + monthlyRate, loanTerm)) / 
-        (Math.pow(1 + monthlyRate, loanTerm) - 1);
-    
-    return Math.round(monthlyPayment);
-}
-
 // Share notification function
 function showShareNotification(carName) {
     const notification = document.createElement('div');
@@ -730,6 +768,14 @@ function showShareNotification(carName) {
             notification.remove();
         }
     }, 4000);
+}
+
+// Open image zoom modal
+function openImageZoom(imageSrc) {
+    const zoomModal = document.getElementById('imageZoomModal');
+    const zoomImage = document.getElementById('zoomImage');
+    zoomImage.src = imageSrc;
+    zoomModal.classList.remove('hidden');
 }
 
 // Utility functions
