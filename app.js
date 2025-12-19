@@ -236,12 +236,45 @@ let filteredCars = [...sampleCars];
 let currentSection = 'for-sale'; // Track which section is active
 
 document.addEventListener('DOMContentLoaded', function() {
-    renderListings();
     setupEventListeners();
+    renderListings();
+    
+    // Show sidebar filters after brief delay
+    setTimeout(() => {
+        const sidebarFilters = document.getElementById('sidebarFilters');
+        if (sidebarFilters) {
+            sidebarFilters.style.display = 'block';
+        }
+    }, 50);
+    
+    // Show reviews section much later - not critical for LCP
+    setTimeout(() => {
+        const reviewsSection = document.querySelector('.reviews-section');
+        if (reviewsSection) {
+            reviewsSection.style.display = 'block';
+        }
+    }, 3000);
 });
 
 // Setup event listeners
 function setupEventListeners() {
+    // Hamburger menu toggle
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navbarContent = document.getElementById('navbarContent');
+    
+    hamburgerBtn.addEventListener('click', function() {
+        hamburgerBtn.classList.toggle('active');
+        navbarContent.classList.toggle('active');
+    });
+    
+    // Close menu when clicking on links
+    navbarContent.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+            hamburgerBtn.classList.remove('active');
+            navbarContent.classList.remove('active');
+        }
+    });
+    
     // Section tabs
     document.getElementById('forSaleTab').addEventListener('click', function() {
         currentSection = 'for-sale';
@@ -260,11 +293,15 @@ function setupEventListeners() {
     // Search - trigger on input for real-time results
     document.getElementById('searchInput').addEventListener('input', performSearch);
 
-    // Filters
+    // Filters - handle both sidebar and mobile versions
     document.getElementById('applyFilters').addEventListener('click', applyFilters);
     document.getElementById('clearFilters').addEventListener('click', clearFilters);
+    if (document.getElementById('mobileApplyFilters')) {
+        document.getElementById('mobileApplyFilters').addEventListener('click', applyFilters);
+        document.getElementById('mobileClearFilters').addEventListener('click', clearFilters);
+    }
 
-    // Price range
+    // Price range - sidebar
     document.getElementById('priceMin').addEventListener('input', function() {
         updatePriceDisplay();
         applyFilters();
@@ -273,6 +310,18 @@ function setupEventListeners() {
         updatePriceDisplay();
         applyFilters();
     });
+
+    // Price range - mobile
+    if (document.getElementById('mobilePriceMin')) {
+        document.getElementById('mobilePriceMin').addEventListener('input', function() {
+            updateMobilePriceDisplay();
+            applyFilters();
+        });
+        document.getElementById('mobilePriceMax').addEventListener('input', function() {
+            updateMobilePriceDisplay();
+            applyFilters();
+        });
+    }
 
     // Sort
     document.getElementById('sortBy').addEventListener('change', function() {
@@ -318,9 +367,9 @@ function setupEventListeners() {
 // Render listings
 function renderListings() {
     const grid = document.getElementById('listingsGrid');
+    console.log('renderListings called, grid:', grid, 'filteredCars:', filteredCars.length, 'currentSection:', currentSection);
     grid.innerHTML = '';
 
-    // Filter by section (sold vs for-sale)
     let sectionCars = filteredCars.filter(car => {
         if (currentSection === 'for-sale') {
             return !car.sold;
@@ -328,25 +377,47 @@ function renderListings() {
             return car.sold;
         }
     });
+    console.log('sectionCars:', sectionCars.length);
 
     if (sectionCars.length === 0) {
-        const message = currentSection === 'for-sale' 
+        const msg = currentSection === 'for-sale' 
             ? 'No cars for sale. Try adjusting your filters.' 
             : 'No sold cars to display.';
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #65676b;">${message}</div>`;
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #65676b;">${msg}</div>`;
         document.getElementById('resultsCount').textContent = currentSection === 'for-sale' 
             ? 'No results' 
             : 'No sold cars';
         return;
     }
 
-    sectionCars.forEach(car => {
-        const listing = createCarListing(car);
-        grid.appendChild(listing);
-    });
-
-    const sectionLabel = currentSection === 'for-sale' ? 'Cars For Sale' : 'Sold Cars';
-    document.getElementById('resultsCount').textContent = `Showing ${sectionCars.length} ${sectionLabel}`;
+    // Show ONLY 1st car initially for minimal LCP
+    const frag = document.createDocumentFragment();
+    frag.appendChild(createCarListing(sectionCars[0]));
+    grid.appendChild(frag);
+    
+    // Load remaining cars after initial render - don't block LCP
+    if (sectionCars.length > 1) {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+                for (let i = 1; i < sectionCars.length; i++) {
+                    const frag2 = document.createDocumentFragment();
+                    frag2.appendChild(createCarListing(sectionCars[i]));
+                    grid.appendChild(frag2);
+                }
+            });
+        } else {
+            setTimeout(() => {
+                for (let i = 1; i < sectionCars.length; i++) {
+                    const frag2 = document.createDocumentFragment();
+                    frag2.appendChild(createCarListing(sectionCars[i]));
+                    grid.appendChild(frag2);
+                }
+            }, 300);
+        }
+    }
+    
+    const label = currentSection === 'for-sale' ? 'Cars For Sale' : 'Sold Cars';
+    document.getElementById('resultsCount').textContent = `Showing ${sectionCars.length} ${label}`;
 }
 
 // Create car listing element
@@ -358,24 +429,26 @@ function createCarListing(car) {
     const images = car.images || [];
     const currentImageIndex = 0;
     
-    // Create image element or placeholder
+    // Create image element or placeholder with eager loading for LCP
+    const thumbPath = images.length > 0 
+        ? images[0].replace('/Cars/', '/Cars-thumbs/')
+        : null;
     const imageHTML = images.length > 0 
-        ? `<img src="${images[0]}" alt="Car image" class="car-image-img zoom-image" data-full-src="${images[0]}" />`
+        ? `<img src="${thumbPath}" alt="${car.year} ${car.make} ${car.model}" class="car-image-img zoom-image" data-full-src="${images[0]}" loading="eager" fetchpriority="high" width="280" height="200" srcset="${thumbPath} 280w, ${images[0]} 1920w" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 280px" onerror="this.src='${images[0]}'" />`
         : '<div class="car-image-placeholder">No Image</div>';
     
     const soldOverlay = car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : '';
-    
     div.innerHTML = `
         <div class="car-image-carousel">
             <div class="car-image-container">
-                <div class="car-image" data-image-index="0">
+                <div class="car-image" data-image-index="0" style="width:100%;height:auto;aspect-ratio:16/9">
                     ${imageHTML}
                     ${soldOverlay}
                 </div>
                 ${images.length > 1 ? `
-                    <button class="carousel-prev" data-car-id="${car.id}">❮</button>
-                    <button class="carousel-next" data-car-id="${car.id}">❯</button>
-                    <div class="carousel-indicators">
+                    <button class="carousel-prev" data-car-id="${car.id}" style="opacity: 0; pointer-events: none;">❮</button>
+                    <button class="carousel-next" data-car-id="${car.id}" style="opacity: 0; pointer-events: none;">❯</button>
+                    <div class="carousel-indicators" style="opacity: 0; pointer-events: none;">
                         ${images.map((_, idx) => `<div class="indicator ${idx === 0 ? 'active' : ''}" data-index="${idx}"></div>`).join('')}
                     </div>
                 ` : ''}
@@ -419,7 +492,7 @@ function createCarListing(car) {
             const img = new Image();
             img.onload = () => {
                 imageContainer.innerHTML = `
-                    <img src="${imgSrc}" alt="Car image" class="car-image-img" />
+                    <img src="${imgSrc}" alt="Car image" class="car-image-img" width="280" height="200" srcset="${thumbPath} 280w, ${imgSrc} 1920w" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 280px" />
                     ${car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : ''}
                 `;
                 imageContainer.setAttribute('data-image-index', currentIdx);
@@ -427,7 +500,7 @@ function createCarListing(car) {
             img.onerror = () => {
                 // Fallback if image fails to load
                 imageContainer.innerHTML = `
-                    <img src="${imgSrc}" alt="Car image" class="car-image-img" />
+                    <img src="${imgSrc}" alt="Car image" class="car-image-img" width="280" height="200" srcset="${thumbPath} 280w, ${imgSrc} 1920w" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 280px" />
                     ${car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : ''}
                 `;
                 imageContainer.setAttribute('data-image-index', currentIdx);
@@ -438,7 +511,7 @@ function createCarListing(car) {
             setTimeout(() => {
                 if (imageContainer.getAttribute('data-image-index') !== String(currentIdx)) {
                     imageContainer.innerHTML = `
-                        <img src="${imgSrc}" alt="Car image" class="car-image-img" />
+                        <img src="${imgSrc}" alt="Car image" class="car-image-img" width="280" height="200" srcset="${thumbPath} 280w, ${imgSrc} 1920w" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 280px" />
                         ${car.sold ? '<div class="sold-overlay"><div class="sold-badge">SOLD</div></div>' : ''}
                     `;
                     imageContainer.setAttribute('data-image-index', currentIdx);
@@ -467,7 +540,6 @@ function createCarListing(car) {
     div.addEventListener('click', () => openCarDetail(car));
     return div;
 }
-
 // Open car detail modal
 function openCarDetail(car) {
     const modal = document.getElementById('carModal');
@@ -475,9 +547,12 @@ function openCarDetail(car) {
     const images = car.images || [];
 
     // Create image element or placeholder
-    const imageHTML = images.length > 0 
-        ? `<img src=\"${images[0]}\" alt=\"Car image\" class=\"car-detail-image-img zoom-image\" data-full-src=\"${images[0]}\" />`
-        : '<div class=\"car-image-placeholder\">No Image</div>';
+    const thumbPath = images.length > 0
+        ? images[0].replace('/Cars/', '/Cars-thumbs/')
+        : null;
+    const imageHTML = images.length > 0
+        ? `<img src="${thumbPath}" alt="${car.year} ${car.make} ${car.model}" class="car-image-img zoom-image" data-full-src="${images[0]}" loading="eager" fetchpriority="high" width="280" height="200" srcset="${thumbPath} 280w, ${images[0]} 1920w" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 280px" onerror="this.src='${images[0]}'" />`
+        : '<div class="car-image-placeholder">No Image</div>';
 
     body.innerHTML = `
         <div class="car-detail-grid">
@@ -559,7 +634,7 @@ function openCarDetail(car) {
         
         const updateDetailCarousel = (idx) => {
             currentIdx = (idx + images.length) % images.length;
-            imageElement.innerHTML = `<img src="${images[currentIdx]}" alt="Car image" class="car-detail-image-img zoom-image" data-full-src="${images[currentIdx]}" />`;
+            imageElement.innerHTML = `<img src="${images[currentIdx]}" alt="Car image" class="car-detail-image-img zoom-image" data-full-src="${images[currentIdx]}" width="560" height="400" />`;
             imageElement.setAttribute('data-image-index', currentIdx);
             indicators.forEach((ind, i) => {
                 ind.classList.toggle('active', i === currentIdx);
@@ -633,16 +708,23 @@ function performSearch() {
 
 // Apply filters
 function applyFilters() {
-    const priceMin = parseInt(document.getElementById('priceMin').value);
-    const priceMax = parseInt(document.getElementById('priceMax').value);
-    const make = document.getElementById('makeFilter').value.toLowerCase();
-    const yearMin = parseInt(document.getElementById('yearMin').value);
-    const yearMax = parseInt(document.getElementById('yearMax').value);
+    // Use mobile filters if visible, otherwise sidebar filters
+    const priceMinId = document.getElementById('mobilePriceMin')?.offsetParent !== null ? 'mobilePriceMin' : 'priceMin';
+    const priceMaxId = priceMinId === 'mobilePriceMin' ? 'mobilePriceMax' : 'priceMax';
+    const makeId = priceMinId === 'mobilePriceMin' ? 'mobileMakeFilter' : 'makeFilter';
+    const yearMinId = priceMinId === 'mobilePriceMin' ? 'mobileYearMin' : 'yearMin';
+    const yearMaxId = priceMinId === 'mobilePriceMin' ? 'mobileYearMax' : 'yearMax';
+
+    const priceMin = parseInt(document.getElementById(priceMinId).value);
+    const priceMax = parseInt(document.getElementById(priceMaxId).value);
+    const make = document.getElementById(makeId).value.toLowerCase();
+    const yearMin = parseInt(document.getElementById(yearMinId).value);
+    const yearMax = parseInt(document.getElementById(yearMaxId).value);
 
     filteredCars = allCars.filter(car => {
         let match = true;
 
-        // Price filter - EXACT price range
+        // Price filter
         if (car.price < priceMin || car.price > priceMax) match = false;
 
         // Make filter
@@ -660,14 +742,29 @@ function applyFilters() {
 // Clear filters
 function clearFilters() {
     document.getElementById('searchInput').value = '';
+    
+    // Clear sidebar filters
     document.getElementById('priceMin').value = 0;
     document.getElementById('priceMax').value = 20000;
     document.getElementById('makeFilter').value = '';
     document.getElementById('yearMin').value = 1990;
     document.getElementById('yearMax').value = 2025;
+    
+    // Clear mobile filters if they exist
+    if (document.getElementById('mobilePriceMin')) {
+        document.getElementById('mobilePriceMin').value = 0;
+        document.getElementById('mobilePriceMax').value = 20000;
+        document.getElementById('mobileMakeFilter').value = '';
+        document.getElementById('mobileYearMin').value = 1990;
+        document.getElementById('mobileYearMax').value = 2025;
+    }
+    
     document.getElementById('sortBy').value = 'newest';
 
     updatePriceDisplay();
+    if (document.getElementById('mobileMinPrice')) {
+        updateMobilePriceDisplay();
+    }
 
     filteredCars = [...allCars];
     renderListings();
@@ -679,6 +776,14 @@ function updatePriceDisplay() {
     const max = document.getElementById('priceMax').value;
     document.getElementById('minPrice').textContent = parseInt(min).toLocaleString();
     document.getElementById('maxPrice').textContent = parseInt(max).toLocaleString();
+}
+
+// Update mobile price display
+function updateMobilePriceDisplay() {
+    const min = document.getElementById('mobilePriceMin').value;
+    const max = document.getElementById('mobilePriceMax').value;
+    document.getElementById('mobileMinPrice').textContent = parseInt(min).toLocaleString();
+    document.getElementById('mobileMaxPrice').textContent = parseInt(max).toLocaleString();
 }
 
 // Sort listings
@@ -795,4 +900,13 @@ function formatDate(date) {
     if (diffDays < 7) return `${diffDays}d ago`;
     
     return date.toLocaleDateString();
+}
+
+// Lazy load reviews section to avoid layout shifts
+if ('IntersectionObserver' in window) {
+    const reviewsSection = document.querySelector('.reviews-section');
+    if (reviewsSection) {
+        const observer = new IntersectionObserver(() => {}, { rootMargin: '500px' });
+        observer.observe(reviewsSection);
+    }
 }
