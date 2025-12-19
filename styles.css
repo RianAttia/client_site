@@ -551,6 +551,20 @@ textarea {
     justify-content: center;
     z-index: 10;
     transition: background-color 0.15s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Always show carousel controls in detail modal */
+.car-modal-content .carousel-prev-detail,
+.car-modal-content .carousel-next-detail {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.car-modal-content .carousel-indicators-detail {
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 .carousel-prev:hover,

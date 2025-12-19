@@ -632,15 +632,24 @@ function openCarDetail(car) {
         const imageContainer = body.querySelector('.car-detail-image-container');
         
         // Make carousel controls visible in detail view
-        if (prevBtn) prevBtn.style.opacity = '1';
-        if (prevBtn) prevBtn.style.pointerEvents = 'auto';
-        if (nextBtn) nextBtn.style.opacity = '1';
-        if (nextBtn) nextBtn.style.pointerEvents = 'auto';
+        if (prevBtn) {
+            prevBtn.style.opacity = '1';
+            prevBtn.style.pointerEvents = 'auto';
+            prevBtn.style.display = 'flex';
+        }
+        if (nextBtn) {
+            nextBtn.style.opacity = '1';
+            nextBtn.style.pointerEvents = 'auto';
+            nextBtn.style.display = 'flex';
+        }
         const indicatorsContainer = body.querySelector('.carousel-indicators-detail');
         if (indicatorsContainer) {
             indicatorsContainer.style.opacity = '1';
             indicatorsContainer.style.pointerEvents = 'auto';
+            indicatorsContainer.style.display = 'flex';
         }
+        
+        console.log('Carousel setup: images.length =', images.length, 'prevBtn =', prevBtn, 'nextBtn =', nextBtn);
         
         let currentIdx = 0;
         
