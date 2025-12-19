@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (reviewsSection) {
             reviewsSection.style.display = 'block';
         }
-    }, 3000);
+    }, 1000);
 });
 
 // Setup event listeners
