@@ -629,6 +629,18 @@ function openCarDetail(car) {
         const nextBtn = body.querySelector('.carousel-next-detail');
         const imageElement = body.querySelector('.car-detail-image');
         const indicators = body.querySelectorAll('.indicator-detail');
+        const imageContainer = body.querySelector('.car-detail-image-container');
+        
+        // Make carousel controls visible in detail view
+        if (prevBtn) prevBtn.style.opacity = '1';
+        if (prevBtn) prevBtn.style.pointerEvents = 'auto';
+        if (nextBtn) nextBtn.style.opacity = '1';
+        if (nextBtn) nextBtn.style.pointerEvents = 'auto';
+        const indicatorsContainer = body.querySelector('.carousel-indicators-detail');
+        if (indicatorsContainer) {
+            indicatorsContainer.style.opacity = '1';
+            indicatorsContainer.style.pointerEvents = 'auto';
+        }
         
         let currentIdx = 0;
         
@@ -639,6 +651,15 @@ function openCarDetail(car) {
             indicators.forEach((ind, i) => {
                 ind.classList.toggle('active', i === currentIdx);
             });
+            
+            // Re-attach click listener to new image
+            const newImg = imageElement.querySelector('.zoom-image');
+            if (newImg) {
+                newImg.addEventListener('click', (e) => {
+                    const fullSrc = images[currentIdx];
+                    openImageZoom(fullSrc);
+                });
+            }
         };
 
         // Initialize carousel with first image
