@@ -1,0 +1,64 @@
+127.0.0.1 - - [18/Dec/2025 21:45:07] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:45:07] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 33594)
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.12/http/server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
+    self.handle()
+  File "/usr/lib/python3.12/http/server.py", line 436, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.12/http/server.py", line 424, in handle_one_request
+    method()
+  File "/home/rian/client_site/client_site/server.py", line 50, in do_GET
+    return http.server.SimpleHTTPRequestHandler.do_GET(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "/usr/lib/python3.12/http/server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "/usr/lib/python3.12/shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "/usr/lib/python3.12/socketserver.py", line 840, in write
+    self._sock.sendall(b)
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+127.0.0.1 - - [18/Dec/2025 21:46:24] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:24] "GET /images/Logo.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:24] "GET /styles.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:24] "GET /images/Cars-thumbs/Nissan/IMG_20251217_001909.png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:24] "GET /app.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:25] "GET /images/Cars-thumbs/New%20cam/IMG_20251217_001910%20(5).png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:25] "GET /images/Cars/Nissan/IMG_20251217_001909.png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:25] "GET /images/Cars-thumbs/Old%20Cam/IMG_20251217_001909%20(13).png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:25] code 404, message File not found
+127.0.0.1 - - [18/Dec/2025 21:46:25] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [18/Dec/2025 21:46:27] "GET /images/Cars/BMW/IMG_20251216_223407.png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:27] "GET /images/Cars-thumbs/Accord/IMG_20251216_223018%20(1).png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:27] "GET /images/Cars-thumbs/Mazda/IMG_20251216_223105%20(1).png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:27] "GET /images/Cars-thumbs/Civic/IMG_20251216_223106%20(6).png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:27] "GET /images/Cars/Crv/IMG_20251216_223622.png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] code 404, message File not found
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /styles.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /images/Cars-thumbs/Nissan/IMG_20251217_001909.png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /images/Logo.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /app.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /images/Cars-thumbs/New%20cam/IMG_20251217_001910%20(5).png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /images/Cars/Nissan/IMG_20251217_001909.png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:35] "GET /images/Cars-thumbs/Old%20Cam/IMG_20251217_001909%20(13).png HTTP/1.1" 200 -
+127.0.0.1 - - [18/Dec/2025 21:46:39] code 404, message File not found
+127.0.0.1 - - [18/Dec/2025 21:46:39] "GET /robots.txt HTTP/1.1" 404 -
+127.0.0.1 - - [18/Dec/2025 21:46:42] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [18/Dec/2025 21:51:33] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [18/Dec/2025 21:57:02] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [18/Dec/2025 21:57:02] code 404, message File not found
+127.0.0.1 - - [18/Dec/2025 21:57:02] "GET /favicon.ico HTTP/1.1" 404 -
