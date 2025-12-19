@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+lighthouse-report.*
+audit-report.json
+*.bak
+client_site/.git
+client_site/node_modules/

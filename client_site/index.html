@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#FF8C00">
+    <meta name="description" content="Khan's Auto Emporium - The Every Man's Car Marketplace. Buy used cars with confidence.">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="images/Logo.jpg">
+    <link rel="preload" as="image" href="images/Cars-thumbs/Nissan/IMG_20251217_001909.png" fetchpriority="high">
+    <link rel="preload" as="style" href="styles.min.css">
+    <style>
+        :root{--primary-color:#FF8C00;--secondary-color:#f0f2f5;--text-dark:#050505;--text-light:#65676b;--border-color:#e5e7eb;--spacing-md:16px;--spacing-lg:24px;--border-radius:8px}*{margin:0;padding:0;box-sizing:border-box}html{font-size:clamp(1rem,0.92rem+0.39vw,1.25rem);font-display:swap}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--text-dark);background-color:#fff;margin:0;padding:0;overflow-x:hidden;display:flex;flex-direction:column;height:100%}.navbar{background-color:#fff;border-bottom:1px solid var(--border-color);position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,0.05)}.navbar-container{max-width:1400px;margin:0 auto;padding:var(--spacing-md) var(--spacing-lg);display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-lg)}.logo-image{height:20px;width:20px;border-radius:4px;display:block}.navbar-logo{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:700;color:var(--primary-color);min-width:fit-content}.navbar-content{display:flex;align-items:center;gap:var(--spacing-lg);flex:1}.search-bar{display:flex;gap:8px;flex:1;max-width:400px}.search-bar input{flex:1;padding:8px 16px;border:1px solid var(--border-color);border-radius:var(--border-radius);font-size:14px}.hamburger{display:none;flex-direction:column;background:0;border:0;cursor:pointer;padding:8px;gap:6px}.hamburger span{width:25px;height:3px;background-color:var(--text-dark);border-radius:2px;transition:all 0.3s ease}.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(10px,10px)}.hamburger.active span:nth-child(2){opacity:0}.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-7px)}.container{display:flex;gap:32px;max-width:1400px;margin:0 auto;padding:32px 24px;flex:1}.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--spacing-lg);contain:layout;}.car-listing{background-color:#fff;border:1px solid var(--border-color);border-radius:var(--border-radius);overflow:hidden;cursor:pointer;transition:box-shadow 0.3s ease;display:flex;flex-direction:column;contain:layout style paint;min-height:360px;}.car-image{width:100%;height:200px;aspect-ratio:16/9;background:transparent;display:block;overflow:hidden;position:relative;contain:layout style paint}.car-image-img{width:100%;height:100%;object-fit:cover;display:block;line-height:0}.car-image-carousel:hover .carousel-prev,.car-image-carousel:hover .carousel-next,.car-image-carousel:hover .carousel-indicators{opacity:1;pointer-events:auto}.carousel-prev,.carousel-next,.carousel-indicators{opacity:0;pointer-events:none;transition:opacity 0.2s ease}@media(max-width:768px){.hamburger{display:flex}.navbar-container{flex-direction:row;gap:var(--spacing-md)}.navbar-logo{order:1;flex:1}.navbar-content{position:absolute;top:100%;left:0;right:0;background-color:#fff;border-bottom:1px solid var(--border-color);flex-direction:column;width:100%;max-height:0;overflow:hidden;transition:max-height 0.3s ease}.navbar-content.active{max-height:1000px;padding:var(--spacing-md) var(--spacing-lg)}.container{flex-direction:column;gap:var(--spacing-md)}.sidebar-filters{display:none !important;visibility:hidden !important}.listings-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
+    </style>
+    <link rel="stylesheet" href="styles.min.css">
+    <title>Khan's Auto Emporium - Used Car Marketplace</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <img src="images/Logo.jpg" alt="Khan's Auto Emporium Logo" class="logo-image" width="20" height="20" />
+                <span class="logo-text">Khan's Auto Emporium</span>
+            </div>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="navbar-content" id="navbarContent">
+                <div class="search-bar">
+                    <label for="searchInput" class="sr-only">Search cars</label>
+                    <input type="text" id="searchInput" placeholder="Search cars, make, model..." />
+                </div>
+                <div class="navbar-actions">
+                </div>
+                
+                <!-- Mobile Filters -->
+                <div class="mobile-filters">
+                    <div class="filter-section">
+                        <h3>Price Range</h3>
+                        <label for="mobilePriceMin">Minimum Price</label>
+                        <input type="range" id="mobilePriceMin" min="0" max="20000" step="1000" value="0" />
+                        <label for="mobilePriceMax">Maximum Price</label>
+                        <input type="range" id="mobilePriceMax" min="0" max="20000" step="1000" value="20000" />
+                        <div class="price-display">
+                            <span>$<span id="mobileMinPrice">0</span></span> - <span>$<span id="mobileMaxPrice">20,000</span></span>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Make</h3>
+                        <label for="mobileMakeFilter">Select Make</label>
+                        <select id="mobileMakeFilter">
+                            <option value="">All Makes</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="honda">Honda</option>
+                            <option value="ford">Ford</option>
+                            <option value="chevrolet">Chevrolet</option>
+                            <option value="bmw">BMW</option>
+                            <option value="nissan">Nissan</option>
+                            <option value="hyundai">Hyundai</option>
+                            <option value="volkswagen">Volkswagen</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Year Range</h3>
+                        <label for="mobileYearMin">Minimum Year</label>
+                        <input type="number" id="mobileYearMin" min="1990" max="2025" value="1990" />
+                        <label for="mobileYearMax">Maximum Year</label>
+                        <input type="number" id="mobileYearMax" min="1990" max="2025" value="2025" />
+                    </div>
+
+                    <button class="btn-filter" id="mobileApplyFilters">Apply Filters</button>
+                    <button class="btn-filter-clear" id="mobileClearFilters">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Filters Sidebar -->
+    <main class="container">
+        <h1 class="sr-only">Khan's Auto Emporium - Used Car Marketplace</h1>
+        <div class="sidebar-filters" id="sidebarFilters">
+            <div class="filter-section">
+                <h3>Price Range</h3>
+                <label for="priceMin">Minimum Price</label>
+                <input type="range" id="priceMin" min="0" max="20000" step="1000" value="0" />
+                <label for="priceMax">Maximum Price</label>
+                <input type="range" id="priceMax" min="0" max="20000" step="1000" value="20000" />
+                <div class="price-display">
+                    <span>$<span id="minPrice">0</span></span> - <span>$<span id="maxPrice">20,000</span></span>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Make</h3>
+                <label for="makeFilter">Select Make</label>
+                <select id="makeFilter">
+                    <option value="">All Makes</option>
+                    <option value="toyota">Toyota</option>
+                    <option value="honda">Honda</option>
+                    <option value="ford">Ford</option>
+                    <option value="chevrolet">Chevrolet</option>
+                    <option value="bmw">BMW</option>
+                    <option value="nissan">Nissan</option>
+                    <option value="hyundai">Hyundai</option>
+                    <option value="volkswagen">Volkswagen</option>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h3>Year Range</h3>
+                <label for="yearMin">Minimum Year</label>
+                <input type="number" id="yearMin" min="1990" max="2025" value="1990" />
+                <label for="yearMax">Maximum Year</label>
+                <input type="number" id="yearMax" min="1990" max="2025" value="2025" />
+            </div>
+
+            <button class="btn-filter" id="applyFilters">Apply Filters</button>
+            <button class="btn-filter-clear" id="clearFilters">Clear All</button>
+        </div>
+
+        <!-- Listings Grid -->
+        <div class="listings-container">
+            <div class="section-tabs">
+                <button class="section-tab active" id="forSaleTab" data-section="for-sale">
+                    🚗 For Sale
+                </button>
+                <button class="section-tab" id="soldTab" data-section="sold">
+                    ✓ Sold
+                </button>
+            </div>
+
+            <div class="listings-header">
+                <h2 id="resultsCount">Showing Cars For Sale</h2>
+                <label for="sortBy" class="sr-only">Sort by</label>
+                <select id="sortBy" class="sort-dropdown">
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="mileage">Mileage: Low to High</option>
+                </select>
+            </div>
+            <div class="listings-grid" id="listingsGrid">
+                <!-- Car listings will be inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login to Arcytype</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Email" required />
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Password" required />
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <p class="modal-footer">Don't have an account? <a href="#signup">Sign up here</a></p>
+        </div>
+    </div>
+
+    <!-- Car Listing Modal -->
+    <div id="carModal" class="modal hidden">
+        <div class="modal-content car-modal-content">
+            <span class="close">&times;</span>
+            <div id="carModalBody">
+                <!-- Car details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Sell Car Modal -->
+    <div id="sellModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>List Your Car for Sale</h2>
+            <form id="sellForm">
+                <div class="form-group">
+                    <label>Make</label>
+                    <select id="sellMake" required>
+                        <option value="">Select Make</option>
+                        <option value="toyota">Toyota</option>
+                        <option value="honda">Honda</option>
+                        <option value="ford">Ford</option>
+                        <option value="chevrolet">Chevrolet</option>
+                        <option value="bmw">BMW</option>
+                        <option value="nissan">Nissan</option>
+                        <option value="hyundai">Hyundai</option>
+                        <option value="volkswagen">Volkswagen</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Model</label>
+                    <input type="text" id="sellModel" required />
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <input type="number" id="sellYear" min="1990" max="2025" required />
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="sellPrice" min="0" required />
+                </div>
+                <div class="form-group">
+                    <label>Mileage</label>
+                    <input type="number" id="sellMileage" min="0" required />
+                </div>
+                <div class="form-group">
+                    <label>Condition</label>
+                    <select id="sellCondition" required>
+                        <option value="">Select Condition</option>
+                        <option value="excellent">Excellent</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                        <option value="needs-work">Needs Work</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="sellDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Contact Phone</label>
+                    <input type="tel" id="sellPhone" required />
+                </div>
+                <button type="submit" class="btn-primary">List Car</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Image Zoom Modal -->
+    <div id="imageZoomModal" class="modal hidden">
+        <div class="zoom-modal-content">
+            <span class="close" id="zoomClose">&times;</span>
+            <img id="zoomImage" class="zoom-image-full" src="" alt="Zoomed image" />
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="reviews-container">
+            <h2>⭐ Customer Reviews</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-author">Anshal Khan</div>
+                    </div>
+                    <p class="review-text">"Khan's Auto Emporium is absolutely amazing! I found the perfect car in just minutes. The site is so easy to use, the selection is incredible, and the prices are unbeatable. I've already recommended this place to all my friends and family. Honestly, this is hands down the best car marketplace I've ever used. 5 stars isn't even enough!"</p>
+                    <div class="review-date">2 weeks ago</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Khan's Auto Emporium</h4>
+                <p>The Every Man's Car Marketplace - Buy used cars with confidence.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#browse">Browse Cars</a></li>
+                    <li><a href="#sell">Sell Your Car</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: support@arcytype.com</p>
+                <p>Phone: 1-800-CARS-NOW</p>
+                <p>Instagram: <a href="https://www.instagram.com/what_we_selling/?hl=en" target="_blank">@what_we_selling</a></p>
+                <p style="font-size: 13px; color: #65676b; margin-top: 8px;">Available 12 PM - 9 PM for consultations</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Khan's Auto Emporium. All rights reserved. Designed by RISD.</p>
+        </div>
+    </footer>
+
+    <script defer src="app.min.js?v=2"></script>
+</body>
+</html>
